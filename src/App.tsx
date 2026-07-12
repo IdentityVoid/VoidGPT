@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { ConvexClientProvider } from "@/lib/convexClient";
 import { Landing } from "@/routes/Landing";
 import { Chat } from "@/routes/Chat";
+import { Analyze } from "@/routes/Analyze";
 import { Navbar } from "@/components/Navbar";
 
 export default function App(): ReactNode {
@@ -15,6 +16,7 @@ export default function App(): ReactNode {
             <Route path="/" element={<Landing />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/chat/:id" element={<Chat />} />
+            <Route path="/analyze" element={<Analyze />} />
           </Routes>
         </div>
       </div>

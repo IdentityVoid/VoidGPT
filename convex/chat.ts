@@ -7,7 +7,7 @@ import { callOpenRouter } from "./lib/openrouter";
 import { DEFAULT_SYSTEM_PROMPT } from "./_system";
 
 const SYSTEM_PROMPT = process.env.SYSTEM_PROMPT ?? DEFAULT_SYSTEM_PROMPT;
-const MODEL = process.env.LLM_MODEL ?? "meta-llama/llama-3.3-70b-instruct:free";
+const MODEL = process.env.LLM_MODEL ?? "qwen/qwen-2.5-coder-32b-instruct";
 
 export const sendMessage = action({
   args: {

@@ -16,6 +16,9 @@ export function Navbar() {
           <Link to="/chat">
             <Button variant="ghost" size="sm">Chat</Button>
           </Link>
+          <Link to="/analyze">
+            <Button variant="ghost" size="sm">Analyze</Button>
+          </Link>
           <a
             href="https://github.com/IdentityVoid/VoidGPT"
             target="_blank"

@@ -3,6 +3,8 @@
  *
  * Set OPENROUTER_API_KEY in the env for higher rate limits and access to paid models.
  * Without a key, requests still work for `:free` models but at strict anonymous limits.
+ * The /v1/chat/completions HTTP route passes the caller's Authorization bearer via
+ * `apiKeyOverride` so end-user-clients can use their own OpenRouter key.
  */
 export interface OpenRouterMessage {
   role: "system" | "user" | "assistant";
@@ -13,12 +15,16 @@ export interface CallOpenRouterArgs {
   model: string;
   systemPrompt: string;
   messages: { role: "user" | "assistant"; content: string }[];
+  apiKeyOverride?: string;
 }
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 
 export async function callOpenRouter(args: CallOpenRouterArgs): Promise<string> {
-  const apiKey = process.env.OPENROUTER_API_KEY ?? "";
+  const apiKey =
+    args.apiKeyOverride?.trim() ||
+    process.env.OPENROUTER_API_KEY?.trim() ||
+    "";
   const siteUrl = process.env.SITE_URL;
   const siteName = process.env.SITE_NAME;
 
