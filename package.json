@@ -10,7 +10,7 @@
     "typecheck": "tsc -b --noEmit && tsc -p tsconfig.cli.json --noEmit",
     "typecheck:web": "tsc -b --noEmit",
     "typecheck:cli": "tsc -p tsconfig.cli.json --noEmit",
-    "setup": "node scripts/setup.mjs",
+    "setup": "node scripts/setup-wizard.mjs",
     "setup:linux": "bash scripts/install.sh",
     "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1",
     "dev:linux": "bash scripts/dev.sh",

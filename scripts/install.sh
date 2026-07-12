@@ -5,8 +5,9 @@
 #   1. Detects Bun. Installs it via the official installer if missing.
 #   2. Runs `bun install`.
 #   3. Creates `.env.local` from `.env.example` (only if it doesn't already exist).
-#   4. Prompts for a Convex deployment URL, writes it to `.env.local`,
-#      and runs `bunx convex dev --once` to deploy the backend.
+#   4. Runs scripts/setup-wizard.mjs, which handles Convex + OpenRouter auth
+#      in one interactive session by opening the relevant browser pages and
+#      prompting only for the OpenRouter key.
 #   5. Prints "how to start the dev server" at the end.
 #
 # Run from the project root:  bash scripts/install.sh
@@ -27,7 +28,7 @@ fail() { printf "${RED}✗${RESET} %s\n" "$1"; exit 1; }
 
 echo
 echo -e "${PINK}Void Coder — installer${RESET}"
-echo -e "${DIM}(this script needs network for: Bun install, npmjs.org, convex.dev)${RESET}"
+echo -e "${DIM}(this script needs network for: Bun install, npmjs.org, convex.dev, openrouter.ai)${RESET}"
 echo
 
 # 1. Bun detection / install
@@ -65,45 +66,24 @@ else
   ok "Edit it later if you want to change LLM_MODEL, deploy's SITE_NAME, etc."
 fi
 
-# 4. Convex deployment — interactive
+# 4. Setup wizard — handles Convex + OpenRouter auth in one interactive session.
+#    Opens the browser to the relevant sign-up pages, prompts for the OpenRouter
+#    key, and runs `bunx convex dev --once` for the backend.
+step "Running setup wizard (Convex + OpenRouter)"
+echo -e "${DIM}  Opens the browser for the two required logins; you just paste an${RESET}"
+echo -e "${DIM}  OpenRouter key when prompted. Idempotent — skips what is already done.${RESET}"
 echo
-echo -e "${PINK}--- Convex setup ---${RESET}"
-echo "Your chat UI needs a live Convex deployment. There is one manual step:"
-echo "  1. Open ${CYAN}https://dashboard.convex.dev${RESET} and create a new project."
-echo "  2. Copy the deployment URL — it looks like:"
-echo "     ${DIM}https://kind-animal-123.convex.cloud${RESET}"
-echo "  3. Paste it below. (Press Enter to skip and set it up manually later.)"
-echo
-read -rp "Convex deployment URL [Enter to skip]: " CONVEX_URL
-echo
-
-if [ -n "${CONVEX_URL}" ]; then
-  case "$CONVEX_URL" in
-    https://*\.convex\.cloud|https://*\.convex\.site) ;;
-    *) warn "URL doesn't match the usual Convex shape. Writing it anyway." ;;
-  esac
-
-  # Write or replace VITE_CONVEX_URL line in .env.local
-  if grep -q "^VITE_CONVEX_URL=" .env.local; then
-    sed -i.bak "s|^VITE_CONVEX_URL=.*|VITE_CONVEX_URL=${CONVEX_URL}|" .env.local
-    rm -f .env.local.bak
-  else
-    printf "\nVITE_CONVEX_URL=%s\n" "$CONVEX_URL" >> .env.local
-  fi
-  ok "VITE_CONVEX_URL written to .env.local"
-
-  step "Deploying backend (bunx convex dev --once)"
-  if bunx convex dev --once; then
-    ok "Convex backend deployed"
-  else
-    warn "Convex deploy failed. Run it manually from the project root:"
-    warn "    bunx convex dev --once"
-  fi
+if ! command -v node >/dev/null 2>&1; then
+  warn "node not found. The setup wizard needs Node 22+. Skipping."
+  warn "After installing Node (https://nodejs.org):  node scripts/setup-wizard.mjs"
 else
-  warn "Skipped Convex setup. Set it up later with:"
-  warn "    1. Create a project at https://dashboard.convex.dev"
-  warn "    2. bunx convex dev --once"
-  warn "    3. Add VITE_CONVEX_URL=<url> to .env.local"
+  if node scripts/setup-wizard.mjs; then
+    ok "Setup wizard complete"
+  else
+    warn "Setup wizard exited non-zero. You can re-run it any time:"
+    warn "    node scripts/setup-wizard.mjs"
+    warn "    (or: bun run setup)"
+  fi
 fi
 
 echo

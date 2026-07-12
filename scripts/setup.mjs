@@ -60,3 +60,6 @@ child.on("error", (err) => {
   console.error(`[!] failed to spawn installer: ${err.message}`);
   process.exit(1);
 });
+
+// Note: scripts/setup-wizard.mjs is the comprehensive installer-aware wizard.
+// scripts/setup.mjs (this file) just routes to the right OS-specific script.

@@ -64,44 +64,27 @@ if (Test-Path .env.local) {
   Ok "Edit it later if you want to change LLM_MODEL, SITE_NAME, etc."
 }
 
-# 4. Convex deployment - interactive
-Write-Host ""
-Write-Host "--- Convex setup ---" -ForegroundColor Magenta
-Write-Host "Your chat UI needs a live Convex deployment. One manual step:"
-Write-Host "  1. Open https://dashboard.convex.dev and create a new project."
-Write-Host "  2. Copy the deployment URL - it looks like:"
-Write-Host "     https://kind-animal-123.convex.cloud"
-Write-Host "  3. Paste it below. (Press Enter to skip and set it up manually later.)"
-Write-Host ""
-$convexUrl = Read-Host "Convex deployment URL [Enter to skip]"
+# 4. Setup wizard - handles Convex + OpenRouter auth in one interactive session.
+#    Opens the browser to the relevant sign-up pages, prompts for the OpenRouter
+#    key, and runs `bunx convex dev --once` for the backend.
+Step "Running setup wizard (Convex + OpenRouter)"
+Write-Host "  Opens the browser for the two required logins; you just paste an" -ForegroundColor DarkGray
+Write-Host "  OpenRouter key when prompted. Idempotent - skips what is already done." -ForegroundColor DarkGray
 Write-Host ""
 
-if ($convexUrl) {
-  if ($convexUrl -notmatch '^https://.*\.convex\.(cloud|site)$') {
-    Warn "URL does not match the usual Convex shape. Writing it anyway."
-  }
-  $content = Get-Content .env.local -Raw
-  if ($content -match '(?m)^VITE_CONVEX_URL=.*') {
-    $content = [regex]::Replace($content, '(?m)^VITE_CONVEX_URL=.*', "VITE_CONVEX_URL=$convexUrl")
-  } else {
-    $content += "`nVITE_CONVEX_URL=$convexUrl`n"
-  }
-  Set-Content -Path .env.local -Value $content -NoNewline
-  Ok "VITE_CONVEX_URL written to .env.local"
-
-  Step "Deploying backend (bunx convex dev --once)"
-  try {
-    & bunx convex dev --once
-    Ok "Convex backend deployed"
-  } catch {
-    Warn "Convex deploy failed. Run it manually from the project root:"
-    Warn "    bunx convex dev --once"
-  }
+$node = Get-Command node -ErrorAction SilentlyContinue
+if (-not $node) {
+  Warn "node not found. The setup wizard needs Node 22+. Skipping."
+  Warn "After installing Node (https://nodejs.org), re-run: node scripts\setup-wizard.mjs"
 } else {
-  Warn "Skipped Convex setup. Set it up later with:"
-  Warn "    1. Create a project at https://dashboard.convex.dev"
-  Warn "    2. bunx convex dev --once"
-  Warn "    3. Add VITE_CONVEX_URL=<url> to .env.local"
+  try {
+    & node scripts\setup-wizard.mjs
+    Ok "Setup wizard complete"
+  } catch {
+    Warn "Setup wizard exited non-zero. You can re-run it any time:"
+    Warn "    node scripts\setup-wizard.mjs"
+    Warn "    (or: bun run setup)"
+  }
 }
 
 Write-Host ""
