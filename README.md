@@ -21,10 +21,58 @@ Open-weight, free-to-use AI coding assistant. Built on the standard Freebuff sta
 
 ## Quick start
 
+### One-click (cross-platform)
+
 ```sh
+bun run setup
+# or:  npm run setup
+# or:  node scripts/setup.mjs
+```
+
+`bun run setup` detects your OS and runs the right installer:
+
+- **Windows** → `scripts/install.ps1`
+- **Linux / macOS** → `scripts/install.sh`
+
+Both installers:
+1. Detect Bun and install it via the official installer if missing.
+2. Run `bun install`.
+3. Copy `.env.example` to `.env.local` (your real config).
+4. Prompt for your Convex deployment URL (one manual step at https://dashboard.convex.dev).
+5. Deploy the backend (`bunx convex dev --once`).
+6. Print how to start the dev server.
+
+Then start it:
+
+```sh
+bun run dev
+# or:  bun run dev:linux  /  bun run dev:windows
+```
+
+Open http://localhost:5173.
+
+### Manual / step-by-step
+
+If you'd rather skip the installer and do each step yourself:
+
+```sh
+# 1. Install Bun (skip if already installed)
+curl -fsSL https://bun.sh/install | bash       # Linux/macOS
+irm bun.sh/install.ps1 | iex                   # Windows PowerShell
+
+# 2. Install dependencies
 bun install
-bunx convex dev           # one-time: authenticate and deploy backend
-bun run dev               # Vite at http://localhost:5173
+
+# 3. Bootstrap env
+cp .env.example .env.local
+
+# 4. Create a Convex deployment at https://dashboard.convex.dev,
+#    paste the deployment URL into VITE_CONVEX_URL in .env.local,
+#    then deploy the backend:
+bunx convex dev --once
+
+# 5. Start the dev server
+bun run dev
 ```
 
 ## Environment variables

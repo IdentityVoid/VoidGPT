@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "setup": "node scripts/setup.mjs",
+    "setup:linux": "bash scripts/install.sh",
+    "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1",
+    "dev:linux": "bash scripts/dev.sh",
+    "dev:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev.ps1"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
