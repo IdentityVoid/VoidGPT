@@ -67,3 +67,7 @@ export function red(s: string): string {
 export function green(s: string): string {
   return `\x1b[32m${s}${RESET}`;
 }
+
+export function yellow(s: string): string {
+  return `\x1b[33m${s}${RESET}`;
+}

@@ -16,6 +16,7 @@ import { helpCommand } from "./commands/help";
 import { configCommand } from "./commands/config";
 import { chatCommand } from "./commands/chat";
 import { analyzeCommand } from "./commands/analyze";
+import { statusCommand } from "./commands/status";
 
 const VERSION = "0.1.0";
 
@@ -57,6 +58,10 @@ try {
     case "config":
       await configCommand(args.positionals.slice(1));
       break;
+    case "status":
+      process.exit(await statusCommand(args.positionals.slice(1)));
+    case "doctor":
+      process.exit(await statusCommand(args.positionals.slice(1)));
     case "help":
       helpCommand();
       break;
