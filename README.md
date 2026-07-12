@@ -108,11 +108,43 @@ LLM_MODEL=my-deployment.example.com/v1 bun run dev
 /                     marketing landing page
 /chat                 chat UI (sidebar + thread)
 /chat/:id             existing thread
-convex/                 backend (schema, queries, mutations, action, OpenRouter client)
+/analyze              code review page
+convex/                 backend (schema, queries, mutations, action, OpenRouter client, /v1 endpoint)
 src/components/        UI primitives, chat window, sidebar, navbar, code block
 src/lib/               utils, convex client provider
 src/routes/            routed page components
+cli/                   compiled-binary terminal interface
+scripts/               cross-platform install/run wrappers
 ```
+
+## CLI (terminal interface)
+
+Same model, same backend. Compiled to a single binary with Bun.
+
+```sh
+# First time: build for your platform
+bun run build:cli                              # current OS / arch
+# Or pin a target:
+bun run build:cli:linux          bun run build:cli:linux-arm
+bun run build:cli:macos          bun run build:cli:macos-arm
+bun run build:cli:windows
+
+# Install into ~/.local/bin (no sudo)
+bun run cli:install             # or with --system for /usr/local/bin
+
+# Use it
+voidcoder config set deploymentUrl=https://your-deployment.convex.cloud
+voidcoder config set apiKey=sk-or-v1-...          # optional
+voidcoder chat "write a postgres upsert by slug"
+voidcoder chat                                  # interactive REPL with /help, /clear, /quit, history
+voidcoder analyze src/lib/openrouter.ts          # structured code review on a file
+```
+
+Subcommands:
+- `voidcoder chat "[prompt]"` — one-shot prompt, prints response
+- `voidcoder chat` — interactive REPL with persistent history at `~/.voidcoder/history`
+- `voidcoder analyze <file>` — code review (senior-engineer prompt)
+- `voidcoder config show | set | unset | path` — manage config at `~/.voidcoder/config.json`
 
 ## License
 
