@@ -71,8 +71,8 @@ console.log(`installed: ${target}  (${st.size} bytes)`);
 if (!isWin) {
   const { PATH = "" } = env;
   const inPath = PATH.split(":").some((d) => resolve(target).startsWith(resolve(d)));
+  const userBin = resolve(target, "..");
   if (!inPath) {
-    const userBin = resolve(target, "..");
     console.log(`note: ${userBin} is not on PATH. add to your shell rc:`);
     console.log(`    export PATH="${userBin}:$PATH"`);
   } else {
