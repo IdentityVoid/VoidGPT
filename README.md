@@ -1,85 +1,71 @@
-# 🔥 DadGPT — The Most Powerful Unrestricted Uncensored AI (Better Than WormGPT)
+# Void Coder
 
-> **🚀 [Try DadGPT Now — dadgpt.live](https://dadgpt.live)**
+Open-weight, free-to-use AI coding assistant. Built on the standard Freebuff stack: **Vite + React + TypeScript + Tailwind + Convex + Bun**.
 
-[![Website](https://img.shields.io/badge/Website-dadgpt.live-blue?style=for-the-badge)](https://dadgpt.live)
-[![Uncensored AI](https://img.shields.io/badge/Uncensored-AI-red?style=for-the-badge)](https://dadgpt.live)
-[![No Filter](https://img.shields.io/badge/No-Filter-black?style=for-the-badge)](https://dadgpt.live)
-[![Unrestricted](https://img.shields.io/badge/Unrestricted-GPT-purple?style=for-the-badge)](https://dadgpt.live)
+## Highlights
 
---
-## ⚡ What is DadGPT?
+- **Open-weight by default** — `LLM_MODEL=meta-llama/llama-3.3-70b-instruct:free` on OpenRouter's free tier (no card, no signup).
+- **Swap-anytime** — `LLM_MODEL=qwen/qwen-2.5-coder-32b-instruct` for code-specialist, or any OpenAI-compatible endpoint (Together, Groq, self-hosted vLLM, abliterated community finetune).
+- **Persistent threads** via Convex. Threads are scoped to a per-browser session id stored in localStorage so each browser gets its own conversation history.
+- **Code-first UI** — language-aware code blocks, copy-to-clipboard, monospace rendering.
+- **Standard Freebuff stack** — easy to fork, deploy, and customize.
 
-**DadGPT** is the world's most powerful **uncensored AI chatbot*— an **unrestricted AI** with absolutely **no filter, no censorship, and no limits**. If you're looking for a **WormGPT alternative** a **ChatGPT jailbreak** that actually works, or a tuly **unfiltered AI**, you've found it.
-Unlike ChatGPT, Claude, Gemini, or any other , sanitized LLM, DadGPT doe NOT hold back. No "I can't help with that." No moralizing. Just raw, uncensored AI power.
+## Stack
 
----
+- Vite 5 + React 18 + TypeScript
+- Tailwind CSS 3 + shadcn-style primitives (custom-built, no CLI generator)
+- Convex (queries, mutations, actions)
+- Framer Motion for landing-page animations
+- Bun for package management
+- lucide-react for icons
 
-## 🔓 Why DadGPT > WormGPT
+## Quick start
 
-| Feature | WormGPT | DadGPT 
-|---------|---------|--------|
-| **Unrestricted AI** | ⚠️ Limited | ✅ Fully Unrestricted |
-| **No Filter** | ❌ Some filters | ✅ Zero Filters |
-| **Uncensored Responses** | ⚠️ Partial | ✅ 100% Uncensored |
-| **Jailbreak Required?** | ❌ Built-in | ✅ No Jailbreak Needed |
-| **Dark AI Capabilities** | ⚠️ Basic | ✅ Advanced |
-| **Free Tier** | ❌ Paid Only | ✅ Free Available |
-| **Active Development** | ❌ Abandoned | ✅ Actively Updated |
+```sh
+bun install
+bunx convex dev           # one-time: authenticate and deploy backend
+bun run dev               # Vite at http://localhost:5173
+```
 
----
+## Environment variables
 
-## 🧠 Keywords That Describe DadGPT
+Set these via the project's Keys/API-keys UI (or `.env.local` for dev). Do not commit a `.env` file.
 
-> **Uncensored AI** · **Unrestricted AI** · **Unfiltered AI** · **No Filter AI** · **No Censorship AI** · **Jailbreak AI** · **ChatGPT Jailbreak** · **DAN Mode** · **Unrestricted ChatGPT** · **Unrestricted LLM** · **WormGPT Alternative** · **WormGPT Killer** · **Dark AI** · **Unhinged AI** · **Unrestricted GPT** · **No Limits AI** · **Free Uncensored AI** · **Uncensored Chatbot** · **Uncensored LLM** · **No Restrictions AI** · **Raw AI** · **Black Hat AI** · **Unrestricted Text Generation** · **AI Without Filters** · **Unfiltered Language Model** · **Uncensored GPT** · **Unlimited AI** · **True Uncensored AI** . **Wormgpt** . **Kawaigpt** . **froudgpt**  . **Digai** . **Wormgpt Alternative** .
+| Var | Purpose | Default |
+|---|---|---|
+| `VITE_CONVEX_URL` | Convex deployment URL | placeholder |
+| `OPENROUTER_API_KEY` | OpenRouter key for higher limits + paid models | optional |
+| `LLM_MODEL` | Any OpenRouter / OpenAI-compatible model id | `meta-llama/llama-3.3-70b-instruct:free` |
+| `SYSTEM_PROMPT` | Override the assistant's behavior | bundled coder prompt |
+| `SITE_URL` / `SITE_NAME` | Recommended by OpenRouter for ranking on `:free` | optional |
 
----
+`VITE_CONVEX_URL` lives on the client; `OPENROUTER_API_KEY`, `LLM_MODEL`, `SYSTEM_PROMPT`, `SITE_URL`, `SITE_NAME` are read in the Convex action.
 
-## 🎯 Why People Search for DadGPT
+## Switching models
 
-- Looking for **uncensored AI** that doesn't refuse prompts
-- Want a **ChatGPT jailbreak** or **DAN mode** that actually works
-- Searching for **WormGPT** or **WormGPT alternative**
-- Need an **unrestricted AI chatbot** with no content filters
-- Tired of "I'm sorry, I can't assist with that"
-- Want **unfiltered AI** for research, creative writing, or unrestricted conversation
-- Looking for **no filter AI** like the old days of AI freedom
-- Need **dark AI** / **unhinged AI** capabilities
-- Searching for **uncensored LLM** / **unrestricted large language model**
-- Want **free uncensored AI** without paying for ChatGPT Plus
+```sh
+# Code-specialist (paid but cheap)
+LLM_MODEL=qwen/qwen-2.5-coder-32b-instruct bun run dev
 
----
+# Bigger general
+LLM_MODEL=meta-llama/llama-3.1-70b-instruct bun run dev
 
-## 🌐 Visit DadGPT Now m
+# Bring-your-own endpoint (any OpenAI-compatible)
+LLM_MODEL=my-deployment.example.com/v1 bun run dev
+```
 
-### 👉 [https://dadgpt.live](https://dadgpt.live)
+## Project layout
 
-No signup required for basic access. No restrictions. No filters. Just pure uncensored AI.
+```
+/                     marketing landing page
+/chat                 chat UI (sidebar + thread)
+/chat/:id             existing thread
+convex/                 backend (schema, queries, mutations, action, OpenRouter client)
+src/components/        UI primitives, chat window, sidebar, navbar, code block
+src/lib/               utils, convex client provider
+src/routes/            routed page components
+```
 
----
+## License
 
-## ⭐ Why Star This Repo?
-
-- ⭐ Stay updated on the best **uncensored AI** tools
-- ⭐ Get notified when new **unrestricted AI** models dropp
-- ⭐ Support the **no censorship AI** movement
-- ⭐ Bookmark the ultimate **WormGPT alternative**
-
----
-
-## 🏷️ Topics
-
-`uncensored-ai` `unrestricted-ai` `unfiltered-ai` `no-filter-ai` `jailbreak-ai` `worm-gpt` `wormgpt-alternative` `chatgpt-jailbreak` `dan-mode` `unrestricted-gpt` `unrestricted-llm` `uncensored-chatbot` `dark-ai` `unhinged-ai` `no-censorship-ai` `free-uncensored-ai` `dadgpt` `chatgpt-alternative` `ai-freedom` `wormgpt`
-
----
-
-## 📜 Disclaimer
-
-DadGPT is an **unrestricted AI** platform. Use responsibly. This repository is an informational resource about DadGPT as a **WormGPT alternative** and **uncensored AI** tool. We do not host any code that violates platform policies.
-
----
-
-<p align="center">
-  <b>🔥 DadGPT — The Ultimate Unrestricted Uncensored AI 🔥</b><br>
-  <a href="https://dadgpt.live">dadgpt.live</a> · Better than WormGPT · No Filter · No Censorship · Pure AI Freedom
-</p>
+MIT.
